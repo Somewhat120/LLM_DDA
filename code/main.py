@@ -1,3 +1,5 @@
+import os
+import pickle
 import numpy as np
 import scipy.sparse as sp
 import tensorflow as tf
@@ -238,9 +240,11 @@ def cross_validation_experiment_2(drug_dis_matrix, drug_matrix, dis_matrix, drug
 
 if __name__ == "__main__":
     from argparse import Namespace
-    args = Namespace(dataset='B-dataset', save_dir='test')
-    if not os.path.exists(f'../result/{args.save_dir}/{args.dataset}'):
-        os.makedirs(f'../result/{args.save_dir}/{args.dataset}')
+    args = Namespace(dataset='B-dataset', save_dir='result_LLM') # to save the result for vanilla GCN, to 'result_origin'
+    save_path = f'../result/{args.save_dir}/{args.dataset}'
+    
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
 
     drug_sim = np.loadtxt(f'../data/{args.dataset}/drug_sim.csv', delimiter=',')
     print(drug_sim.shape)
@@ -268,6 +272,4 @@ if __name__ == "__main__":
             drug_dis_matrix, drug_sim * simw, dis_sim * simw, drug_emb, dis_emb, i, epoch, emb_dim, dp, lr, adjdp)
         results[i] = result
 
-        cross_validation_experiment_2(
-            drug_dis_matrix, drug_sim * simw, dis_sim * simw, drug_emb, dis_emb, i, epoch, emb_dim, dp, lr, adjdp)
-        np.save(f'../result/{args.save_dir}/{args.dataset}/{args.dataset}_{i}.npy', pred_matrix)
+        np.save(f'{save_path}/{args.dataset}_{i}.npy', pred_matrix)
