@@ -20,7 +20,7 @@ Author: Zidu Xu (znx2000)
 
 ## Code
 ### Environment Requirement
-The code has been tested running under Python 3.6.8. The required packages are as follows:
+The required packages are as follows:
 - python == 3.9
 - tensorflow == 2.10
 
