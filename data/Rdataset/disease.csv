@@ -1,0 +1,455 @@
+ID,Disease,Name
+0,D009394,"Nephritis, Hereditary"
+1,D006973,Hypertension
+2,D001249,Asthma
+3,D003876,"Dermatitis, Atopic"
+4,D001943,Breast Neoplasms
+5,D001932,Brain Neoplasms
+6,D009298,Nasal Polyps
+7,D012559,Schizophrenia
+8,D010003,Osteoarthritis
+9,D065631,"Rhinitis, Allergic"
+10,D015451,"Leukemia, Lymphocytic, Chronic, B-Cell"
+11,D011565,Psoriasis
+12,D001172,"Arthritis, Rheumatoid"
+13,D006689,Hodgkin Disease
+14,D003924,"Diabetes Mellitus, Type 2"
+15,D000152,Acne Vulgaris
+16,D054198,Precursor Cell Lymphoblastic Leukemia-Lymphoma
+17,D015470,"Leukemia, Myeloid, Acute"
+18,D006319,"Hearing Loss, Sensorineural"
+19,D015464,"Leukemia, Myelogenous, Chronic, BCR-ABL Positive"
+20,D007592,Joint Diseases
+21,D010300,Parkinson Disease
+22,D004401,Dysarthria
+23,D009182,Mycosis Fungoides
+24,D003093,"Colitis, Ulcerative"
+25,D009103,Multiple Sclerosis
+26,D005764,Gastroesophageal Reflux
+27,D009101,Multiple Myeloma
+28,D001764,Blepharospasm
+29,D020734,Parkinsonian Disorders
+30,D010437,Peptic Ulcer
+31,D005902,"Glaucoma, Open-Angle"
+32,D001171,"Arthritis, Juvenile"
+33,D014376,Tuberculosis
+34,D010024,Osteoporosis
+35,D003863,Depression
+36,D001281,Atrial Fibrillation
+37,D016584,Panic Disorder
+38,D000787,Angina Pectoris
+39,D008224,"Lymphoma, Follicular"
+40,D002177,Candidiasis
+41,D001289,Attention Deficit Disorder with Hyperactivity
+42,D006073,Gout
+43,D012628,"Dermatitis, Seborrheic"
+44,D003371,Cough
+45,D012148,Restless Legs Syndrome
+46,D008178,"Lupus Erythematosus, Cutaneous"
+47,D007319,Sleep Initiation and Maintenance Disorders
+48,D009404,Nephrotic Syndrome
+49,D013274,Stomach Neoplasms
+50,D003922,"Diabetes Mellitus, Type 1"
+51,D008180,"Lupus Erythematosus, Systemic"
+52,D009771,Obsessive-Compulsive Disorder
+53,D020522,"Lymphoma, Mantle-Cell"
+54,D006949,Hyperlipidemias
+55,D001145,"Arrhythmias, Cardiac"
+56,D002644,Chickenpox
+57,D031845,Hajdu-Cheney Syndrome
+58,D015179,Colorectal Neoplasms
+59,D013167,"Spondylitis, Ankylosing"
+60,D014005,Tinea
+61,D017449,"Dermatitis, Allergic Contact"
+62,D002292,"Carcinoma, Renal Cell"
+63,D001762,Blepharitis
+64,D010392,Pemphigus
+65,D016481,Helicobacter Infections
+66,D015212,Inflammatory Bowel Diseases
+67,D004715,Endometriosis
+68,D054218,Precursor T-Cell Lymphoblastic Leukemia-Lymphoma
+69,D008575,Meniere Disease
+70,D010391,"Pemphigoid, Bullous"
+71,D009203,Myocardial Infarction
+72,D002289,"Carcinoma, Non-Small-Cell Lung"
+73,D001714,Bipolar Disorder
+74,D015658,HIV Infections
+75,D017285,Polymyositis
+76,D006980,Hyperthyroidism
+77,D001528,Behcet Syndrome
+78,D029424,"Pulmonary Disease, Chronic Obstructive"
+79,D006938,Hyperlipoproteinemia Type II
+80,D046589,CADASIL
+81,D001749,Urinary Bladder Neoplasms
+82,D001008,Anxiety Disorders
+83,D016411,"Lymphoma, T-Cell, Peripheral"
+84,D011471,Prostatic Neoplasms
+85,D007006,Hypogonadism
+86,D003324,Coronary Artery Disease
+87,D013262,Stevens-Johnson Syndrome
+88,D018232,"Rhabdomyosarcoma, Alveolar"
+89,D012595,"Scleroderma, Systemic"
+90,D006526,Hepatitis C
+91,D000224,Addison Disease
+92,D010190,Pancreatic Neoplasms
+93,D065627,Familial Primary Pulmonary Hypertension
+94,D013203,Staphylococcal Infections
+95,D010051,Ovarian Neoplasms
+96,D000744,"Anemia, Hemolytic, Autoimmune"
+97,D005705,Gallbladder Diseases
+98,D000083242,Ischemic Stroke
+99,D001228,Aspergillosis
+100,D000544,Alzheimer Disease
+101,D010033,Otitis Media
+102,D000437,Alcoholism
+103,D009765,Obesity
+104,D006976,"Hypertension, Pulmonary"
+105,D006030,"Glycosuria, Renal"
+106,D006561,Herpes Simplex
+107,D013036,"Spasms, Infantile"
+108,D002583,Uterine Cervical Neoplasms
+109,D016553,"Purpura, Thrombocytopenic, Idiopathic"
+110,D008010,Lichen Planus
+111,D002819,Chorea
+112,D014890,Granulomatosis with Polyangiitis
+113,D011928,Raynaud Disease
+114,D013968,"Thyroiditis, Subacute"
+115,D009447,Neuroblastoma
+116,D009128,Muscle Spasticity
+117,D001327,Autoimmune Diseases
+118,D011085,Polycystic Ovary Syndrome
+119,D013700,Giant Cell Arteritis
+120,D002051,Burkitt Lymphoma
+121,D020329,Essential Tremor
+122,D014010,Tinea Versicolor
+123,D012868,Skin Abnormalities
+124,D003234,"Conjunctivitis, Bacterial"
+125,D025241,Spondylarthritis
+126,D002178,"Candidiasis, Chronic Mucocutaneous"
+127,D004938,Esophageal Neoplasms
+128,D016889,Endometrial Neoplasms
+129,D000077195,Squamous Cell Carcinoma of Head and Neck
+130,D005879,Tourette Syndrome
+131,D010673,Pheochromocytoma
+132,D020190,"Myoclonic Epilepsy, Juvenile"
+133,D009902,Optic Neuritis
+134,D009157,Myasthenia Gravis
+135,D010001,Osteitis Deformans
+136,D010510,Periodontal Diseases
+137,D000075222,Essential Hypertension
+138,D014917,Whooping Cough
+139,D055752,Small Cell Lung Carcinoma
+140,D009290,Narcolepsy
+141,D065768,Lennox Gastaut Syndrome
+142,D020275,Guillain-Barre Syndrome
+143,D012541,Scarlet Fever
+144,D011111,Polymyalgia Rheumatica
+145,D009396,Wilms Tumor
+146,D020326,Migraine without Aura
+147,D007011,Hypoparathyroidism
+148,D006937,Hypercholesterolemia
+149,D012512,"Sarcoma, Ewing"
+150,D053098,Familial Hypophosphatemic Rickets
+151,D054179,"Angioedemas, Hereditary"
+152,D052018,Bulimia Nervosa
+153,D007873,Legg-Calve-Perthes Disease
+154,D004892,Erythema Multiforme
+155,D010373,Lice Infestations
+156,D011695,IgA Vasculitis
+157,D004832,"Epilepsy, Absence"
+158,D009373,"Neoplasms, Germ Cell and Embryonal"
+159,D010916,Pityriasis Rubra Pilaris
+160,D012507,Sarcoidosis
+161,D017241,MELAS Syndrome
+162,D004421,Dystonia
+163,D001523,Mental Disorders
+164,D016112,Ichthyosis Vulgaris
+165,D007918,Leprosy
+166,D006333,Heart Failure
+167,D004829,"Epilepsy, Generalized"
+168,D012516,Osteosarcoma
+169,D003966,Camurati-Engelmann Syndrome
+170,D000312,"Adrenal Hyperplasia, Congenital"
+171,D000690,Amyotrophic Lateral Sclerosis
+172,D013736,Testicular Neoplasms
+173,D012514,"Sarcoma, Kaposi"
+174,D019851,Thrombophilia
+175,D006528,"Carcinoma, Hepatocellular"
+176,D004820,Epidermolysis Bullosa
+177,D006509,Hepatitis B
+178,D010911,Pituitary Neoplasms
+179,D018273,"Carcinoma, Islet Cell"
+180,D011087,Polycythemia Vera
+181,D040181,"Genetic Diseases, X-Linked"
+182,D006934,Hypercalcemia
+183,D003550,Cystic Fibrosis
+184,D003453,Cryptococcosis
+185,D010488,Polyarteritis Nodosa
+186,D018288,"Carcinoma, Small Cell"
+187,D019578,Multiple System Atrophy
+188,D002602,Chancroid
+189,D055953,Microscopic Polyangiitis
+190,D022124,Hyperammonemia
+191,D000848,Anodontia
+192,D002386,Cataract
+193,D002647,Chilblains
+194,D006069,Gonorrhea
+195,D006954,Hyperlipoproteinemia Type V
+196,D015043,Zollinger-Ellison Syndrome
+197,D017114,"Liver Failure, Acute"
+198,D003424,Crohn Disease
+199,D006111,Graves Disease
+200,D009165,"Mycobacterium Infections, Nontuberculous"
+201,D003480,Cushing Syndrome
+202,D012010,"Red-Cell Aplasia, Pure"
+203,D000505,Alopecia
+204,D014820,Vitiligo
+205,D002862,Chromoblastomycosis
+206,D001072,Apraxias
+207,D001606,Bernard-Soulier Syndrome
+208,D014435,Typhoid Fever
+209,D000881,Anthrax
+210,D006086,Graft vs Host Disease
+211,D008228,"Lymphoma, Non-Hodgkin"
+212,D016649,Primary Ovarian Insufficiency
+213,D006828,Hydatidiform Mole
+214,D013587,Syphilis
+215,D013915,Thrombasthenia
+216,D005738,Gas Gangrene
+217,D015228,Hypertriglyceridemia
+218,D001759,Blastomycosis
+219,D012509,Sarcoma
+220,D002822,Choriocarcinoma
+221,D014406,Tularemia
+222,D001157,Arterial Occlusive Diseases
+223,D051474,"Neuralgia, Postherpetic"
+224,D014402,Tuberous Sclerosis
+225,D000562,Amebiasis
+226,D003047,Coccidioidomycosis
+227,D020790,"Diabetes Insipidus, Neurogenic"
+228,D008219,Lymphogranuloma Venereum
+229,D010284,Paratyphoid Fever
+230,D053206,Nocturnal Enuresis
+231,D009190,Myelodysplastic Syndromes
+232,D007251,"Influenza, Human"
+233,D008288,Malaria
+234,D006660,Histoplasmosis
+235,D020961,Lewy Body Disease
+236,D007644,Darier Disease
+237,D012532,Scabies
+238,D009091,Mucormycosis
+239,D009080,Mucocutaneous Lymph Node Syndrome
+240,D043183,Irritable Bowel Syndrome
+241,D017515,Pityriasis Rosea
+242,D005873,Giardiasis
+243,D016585,"Vaginosis, Bacterial"
+244,D046152,Gastrointestinal Stromal Tumors
+245,D005910,Glioma
+246,D008269,Macular Edema
+247,D004374,"Ductus Arteriosus, Patent"
+248,D011020,"Pneumonia, Pneumocystis"
+249,D016736,Antiphospholipid Syndrome
+250,D012859,Sjogren's Syndrome
+251,D015352,Dry Eye Syndromes
+252,D008268,Macular Degeneration
+253,D007645,"Keratoderma, Palmoplantar"
+254,D014802,Vitamin A Deficiency
+255,D010930,Plague
+256,D007943,"Leukemia, Hairy Cell"
+257,D050031,Hashimoto Disease
+258,D055728,Primary Myelofibrosis
+259,D002280,"Carcinoma, Basal Cell"
+260,D020385,Myokymia
+261,D001259,Ataxia
+262,D028226,"Amyloidosis, Familial"
+263,D006962,"Hyperparathyroidism, Secondary"
+264,D013132,Spinocerebellar Degenerations
+265,D004422,Dystonia Musculorum Deformans
+266,D006816,Huntington Disease
+267,D001477,Bartter Syndrome
+268,D000707,Anaphylaxis
+269,D014437,"Typhus, Endemic Flea-Borne"
+270,D020388,"Muscular Dystrophy, Duchenne"
+271,D018263,"Adenocarcinoma, Follicular"
+272,D003928,Diabetic Nephropathies
+273,D013174,Sporotrichosis
+274,D005198,Fanconi Syndrome
+275,D000347,Afibrinogenemia
+276,D018197,Hepatoblastoma
+277,D011225,Pre-Eclampsia
+278,D018798,"Anemia, Iron-Deficiency"
+279,D017488,"Hyperkeratosis, Epidermolytic"
+280,D001987,Bronchiectasis
+281,D003555,Cystinuria
+282,D003586,Cytomegalovirus Infections
+283,D004893,Erythema Nodosum
+284,D005687,Galactorrhea
+285,D029503,"Anemia, Diamond-Blackfan"
+286,D008181,Lupus Nephritis
+287,D000141,"Acidosis, Renal Tubular"
+288,D007896,Leishmaniasis
+289,D009855,Onchocerciasis
+290,D020514,Hypokalemic Periodic Paralysis
+291,D014123,Toxoplasmosis
+292,D011115,Polyneuropathies
+293,D004169,Diphyllobothriasis
+294,D002446,Celiac Disease
+295,D008545,Melanoma
+296,D006966,Hyperprolactinemia
+297,D056693,Propionic Acidemia
+298,D014927,Wolff-Parkinson-White Syndrome
+299,D010383,Pellagra
+300,D055623,"Keratosis, Actinic"
+301,D002771,Cholera
+302,D012612,Scrub Typhus
+303,D054221,Classical Lissencephalies and Subcortical Band Heterotopias
+304,D004697,"Endocarditis, Bacterial"
+305,D014245,Trichomonas Infections
+306,D008105,"Liver Cirrhosis, Biliary"
+307,D009437,Neuralgia
+308,D017490,"Ichthyosis, Lamellar"
+309,D005359,"Fibrous Dysplasia, Polyostotic"
+310,D011125,Adenomatous Polyposis Coli
+311,D012555,Schistosomiasis mansoni
+312,D006929,Hyperaldosteronism
+313,D004761,"Enterocolitis, Pseudomembranous"
+314,D012175,Retinoblastoma
+315,D001162,Arteriosclerosis Obliterans
+316,D008088,Listeriosis
+317,D015419,"Spastic Paraplegia, Hereditary"
+318,D010229,Paracoccidioidomycosis
+319,D017229,Enterobiasis
+320,D002780,"Cholestasis, Intrahepatic"
+321,D000172,Acromegaly
+322,D002294,"Carcinoma, Squamous Cell"
+323,D018901,Peroxisomal Disorders
+324,D002006,Brucellosis
+325,D013919,Thromboangiitis Obliterans
+326,D054437,Myelodysplastic-Myeloproliferative Diseases
+327,D003731,Dental Caries
+328,D031249,Erdheim-Chester Disease
+329,D003414,Crigler-Najjar Syndrome
+330,D006950,"Hyperlipidemia, Familial Combined"
+331,D056729,"von Willebrand Disease, Type 3"
+332,D013322,Strongyloidiasis
+333,D008589,Meningococcal Infections
+334,D052537,"Niemann-Pick Disease, Type B"
+335,D008527,Medulloblastoma
+336,D013964,Thyroid Neoplasms
+337,D002971,Cleft Lip
+338,D017492,"Keratosis, Seborrheic"
+339,D013920,"Thrombocythemia, Essential"
+340,D000306,Adrenal Cortex Neoplasms
+341,D010282,Parathyroid Neoplasms
+342,D013922,Thrombocytosis
+343,D001474,Bartonella Infections
+344,D020096,Zygomycosis
+345,D007922,Leptospirosis
+346,D004165,Diphtheria
+347,D005271,Femur Head Necrosis
+348,D052536,"Niemann-Pick Disease, Type A"
+349,D001176,Arthrogryposis
+350,D015211,Zellweger Syndrome
+351,D018357,Respiratory Syncytial Virus Infections
+352,D008305,Malignant Hyperthermia
+353,D006394,Hemangiosarcoma
+354,D015459,"Leukemia-Lymphoma, Adult T-Cell"
+355,D006501,Hepatic Encephalopathy
+356,D012552,Schistosomiasis
+357,D017887,Ossification of Posterior Longitudinal Ligament
+358,D017681,Hypereosinophilic Syndrome
+359,D009889,Opisthorchiasis
+360,D014202,Tremor
+361,D000743,"Anemia, Hemolytic"
+362,D012614,Scurvy
+363,D003218,Condylomata Acuminata
+364,D015001,Yaws
+365,D003551,Cysticercosis
+366,D020194,Unverricht-Lundborg Syndrome
+367,D000196,Actinomycosis
+368,D018633,Pulmonary Atresia
+369,D006953,Hyperlipoproteinemia Type IV
+370,D018785,Tricuspid Atresia
+371,D011778,Q Fever
+372,D015267,Churg-Strauss Syndrome
+373,D056725,"von Willebrand Disease, Type 1"
+374,D007566,"Jaundice, Chronic Idiopathic"
+375,D014648,Varicose Veins
+376,D009956,Psittacosis
+377,D001321,Autistic Disorder
+378,D011019,"Pneumonia, Mycoplasma"
+379,D010237,Paragonimiasis
+380,D016878,POEMS Syndrome
+381,D015499,"Renal Tubular Transport, Inborn Errors"
+382,D014355,Chagas Disease
+383,D008581,Meningitis
+384,D004802,Eosinophilia
+385,D014141,Trachoma
+386,D000542,"Alveolitis, Extrinsic Allergic"
+387,D001254,Astrocytoma
+388,D001196,Ascariasis
+389,D008175,Lung Neoplasms
+390,D052556,"Niemann-Pick Disease, Type C"
+391,D013742,Tetanus
+392,D007057,Ichthyosis
+393,D015175,Prolactinoma
+394,D006527,Hepatolenticular Degeneration
+395,D005878,Gilbert Disease
+396,D007676,"Kidney Failure, Chronic"
+397,D006946,Hyperinsulinism
+398,D005356,Fibromyalgia
+399,D053579,Gitelman Syndrome
+400,D003294,"Seizures, Febrile"
+401,D011546,Pseudohypoaldosteronism
+402,D014973,Xanthomatosis
+403,D020246,Venous Thrombosis
+404,D005211,Fascioliasis
+405,D009617,Nocardia Infections
+406,D002239,"Carbohydrate Metabolism, Inborn Errors"
+407,D018856,"Cystitis, Interstitial"
+408,D006932,Hyperbilirubinemia
+409,D003457,Cryptosporidiosis
+410,D005892,"Gingivitis, Necrotizing Ulcerative"
+411,D005776,Gaucher Disease
+412,D020513,"Paralysis, Hyperkalemic Periodic"
+413,D000749,"Anemia, Megaloblastic"
+414,D005877,Gigantism
+415,D014846,Vulvar Neoplasms
+416,D003003,Clonorchiasis
+417,D024741,"Cardiomyopathy, Hypertrophic, Familial"
+418,D010505,Familial Mediterranean Fever
+419,D018879,Ventricular Premature Complexes
+420,D003929,Diabetic Neuropathies
+421,D008947,Mixed Connective Tissue Disease
+422,D063730,"Rickets, Hypophosphatemic"
+423,D020165,Carbamoyl-Phosphate Synthase I Deficiency Disease
+424,D008708,Methemoglobinemia
+425,D003930,Diabetic Retinopathy
+426,D000745,"Anemia, Hemolytic, Congenital"
+427,D009135,Muscular Diseases
+428,D019693,"Hepatitis, Autoimmune"
+429,D007888,Leigh Disease
+430,D012061,Relapsing Fever
+431,D013344,Subacute Sclerosing Panencephalitis
+432,D002169,Campylobacter Infections
+433,D000015,"Abnormalities, Multiple"
+434,D013771,Tetralogy of Fallot
+435,D020159,Citrullinemia
+436,D014201,Trematode Infections
+437,D016403,"Lymphoma, Large B-Cell, Diffuse"
+438,D001068,Feeding and Eating Disorders
+439,D007876,Legionellosis
+440,D007177,Inappropriate ADH Syndrome
+441,D018207,Angiomyolipoma
+442,D020915,Korsakoff Syndrome
+443,D006712,Homocystinuria
+444,D006725,Hookworm Infections
+445,D004443,Echinococcosis
+446,D000326,Adrenoleukodystrophy
+447,D003554,Cystinosis
+448,D014257,Trichuriasis
+449,D006100,Granuloma Inguinale
+450,D011081,"Polychondritis, Relapsing"
+451,D012373,Rocky Mountain Spotted Fever
+452,D020163,Ornithine Carbamoyltransferase Deficiency Disease
+453,D007946,"Leukemia, Mast-Cell"

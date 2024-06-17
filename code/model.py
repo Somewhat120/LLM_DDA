@@ -1,162 +1,202 @@
-import tensorflow as tf
-from layers import GraphConvolution, GraphConvolutionSparse, InnerProductDecoder
-from layers import GraphConvolution_2, GraphConvolutionSparse_2, InnerProductDecoder_2
-from layers import AttentionAggregator
-from utils import *
+import torch
+import torch.nn as nn
+import dgl.nn as dglnn
+import dgl
 
 
-class GCNModel():
+class InnerProductDecoder(nn.Module):
+    """Decoder model layer for link prediction."""
 
-    def __init__(self, placeholders, num_features, emb_dim, features_nonzero, adj_nonzero, num_r, name, act=tf.nn.elu):
-        self.name = name
-        self.inputs = placeholders['features']
-        self.input_dim = num_features
-        self.emb_dim = emb_dim
-        self.features_nonzero = features_nonzero
-        self.adj_nonzero = adj_nonzero
-        self.adj = placeholders['adj']
-        self.dropout = placeholders['dropout']
-        self.adjdp = placeholders['adjdp']
-        self.act = act
-        self.att = tf.Variable(tf.constant([0.5, 0.33, 0.25]))
-        self.num_r = num_r
-        with tf.variable_scope(self.name):
-            self.build()
+    def __init__(self, input_dim=None, dropout=0.4):
+        super(InnerProductDecoder, self).__init__()
+        self.dropout = nn.Dropout(dropout)
+        if input_dim:
+            self.weights_D = nn.Linear(input_dim, input_dim, bias=False)
+            nn.init.xavier_uniform_(self.weights_D.weight)
+            self.weights_R = nn.Linear(input_dim, input_dim, bias=False)
+            nn.init.xavier_uniform_(self.weights_R.weight)
 
-    def build(self):
-        self.adj = dropout_sparse(self.adj, 1-self.adjdp, self.adj_nonzero)
+    def forward(self, feature):
+        feature['drug'] = self.dropout(feature['drug'])
+        feature['disease'] = self.dropout(feature['disease'])
+        R = feature['drug']
+        D = feature['disease']
+        R = self.weights_R(R)
+        D = self.weights_D(D)
+        outputs = R @ D.T
+        return outputs
 
-        self.hidden1 = GraphConvolutionSparse(
-            name='gcn_sparse_layer',
-            input_dim=self.input_dim,
-            output_dim=self.emb_dim,
-            adj=self.adj,
-            features_nonzero=self.features_nonzero,
-            dropout=self.dropout,
-            act=self.act)(self.inputs)
 
-        self.hidden2 = GraphConvolution(
-            name='gcn_dense_layer',
-            input_dim=self.emb_dim,
-            output_dim=self.emb_dim,
-            adj=self.adj,
-            dropout=self.dropout,
-            act=self.act)(self.hidden1)
+class Node_Encoder(nn.Module):
+    """The base HeteroGCN layer."""
 
-        self.emb = GraphConvolution(
-            name='gcn_dense_layer2',
-            input_dim=self.emb_dim,
-            output_dim=self.emb_dim,
-            adj=self.adj,
-            dropout=self.dropout,
-            act=self.act)(self.hidden2)
+    def __init__(self, in_feats, out_feats, dropout, rel_names):
+        super().__init__()
+        HeteroGraphdict = {}
+        for rel in rel_names:
+            graphconv = dglnn.GraphConv(in_feats, out_feats)
+            nn.init.xavier_normal_(graphconv.weight)
+            HeteroGraphdict[rel] = graphconv
+        self.dropout = nn.Dropout(p=dropout)
+        self.embedding = dglnn.HeteroGraphConv(HeteroGraphdict, aggregate='sum')
+        self.bn_layer = nn.BatchNorm1d(out_feats)
+        self.prelu = nn.PReLU()
 
-        self.embeddings = self.hidden1 * \
-            self.att[0]+self.hidden2*self.att[1]+self.emb*self.att[2]
+    def forward(self, graph, inputs, bn=False, dp=False):
+        h = self.embedding(graph, inputs)
+        if bn and dp:
+            h = {k: self.prelu(self.dropout(self.bn_layer(v))) for k, v in h.items()}
+        elif dp:
+            h = {k: self.prelu(self.dropout(v)) for k, v in h.items()}
+        elif bn:
+            h = {k: self.prelu(self.bn_layer(v)) for k, v in h.items()}
+        else:
+            h = {k: self.prelu(v) for k, v in h.items()}
+        return h
 
-        self.reconstructions = InnerProductDecoder(
-            name='gcn_decoder',
-            input_dim=self.emb_dim, num_r=self.num_r, act=tf.nn.sigmoid)(self.embeddings)
 
-from tensorflow.keras.models import Model
-class GCNModel_2(Model):
-    def __init__(self, num_features, emb_dim, features_nonzero, adj, adj_nonzero, adjdp, dp, num_r, act=tf.nn.elu):
-        super(GCNModel_2, self).__init__()
-        self.emb_dim = emb_dim
-        self.features_nonzero = features_nonzero
-        self.adj_nonzero = adj_nonzero
-        self.act = act
-        self.num_r = num_r
-        # self.att = tf.Variable(tf.constant([0.5, 0.33, 0.25]))
-        self.adj = adj
-        self.adjdp = adjdp
-        self.dropout = dp
+class SemanticAttention(nn.Module):
+    """The base attention mechanism used in
+    topological subnet embedding block and layer attention block.
+    """
 
-        # define layers
-        self.gcn_sparse_layer1 = GraphConvolutionSparse_2(input_dim=num_features,
-                                                        output_dim=self.emb_dim,
-                                                        features_nonzero=self.features_nonzero,
-                                                        act=self.act, 
-                                                        adj=self.adj, 
-                                                        dropout=self.dropout)
-        self.gcn_dense_layer2 = GraphConvolution_2(input_dim=self.emb_dim,
-                                                output_dim=self.emb_dim,
-                                                act=self.act, 
-                                                adj=self.adj, 
-                                                dropout=self.dropout)
-        self.gcn_dense_layer3 = GraphConvolution_2(input_dim=emb_dim,
-                                                output_dim=self.emb_dim,
-                                                act=self.act, 
-                                                adj=self.adj, 
-                                                dropout=self.dropout)
-        self.layer_attn1 = AttentionAggregator(num_vectors=3)
+    def __init__(self, in_feats, hidden_size=128):
+        super(SemanticAttention, self).__init__()
+
+        self.project = nn.Sequential(
+            nn.Linear(in_feats, hidden_size),
+            nn.Tanh(),
+            nn.Linear(hidden_size, 1, bias=False)
+        )
+
+    def forward(self, z, is_print=False):
+        w = self.project(z).mean(0)
+        beta = torch.softmax(w, dim=0)
+        beta = beta.expand((z.shape[0],) + beta.shape)
+        if is_print:
+            print(beta)
+        return (beta * z).sum(1)
+
+
+class Model(nn.Module):
+    """The overall MODDA architecture."""
+
+    def __init__(self, args, etypes, ntypes, in_feats):
+        super(Model, self).__init__()
+        self.ntypes = ntypes
+        self.model_type = args.concatenate_type
+        hidden_feats = args.hidden_feats
+        dropout = args.dropout
+
+        self.drug_linear = nn.Linear(in_feats[0], hidden_feats)
+        nn.init.xavier_normal_(self.drug_linear.weight)
+        self.disease_linear = nn.Linear(in_feats[1], hidden_feats)
+        nn.init.xavier_normal_(self.disease_linear.weight)
+        self.encoder_1 = Node_Encoder(hidden_feats, hidden_feats, dropout, etypes)
+        self.encoder_2 = Node_Encoder(hidden_feats, hidden_feats, dropout, etypes)
+
+        if self.model_type == 'graph_ae':
+            self.drug_linear_LLM = nn.Linear(in_feats[2], hidden_feats)
+            nn.init.xavier_normal_(self.drug_linear_LLM.weight)
+            self.disease_linear_LLM = nn.Linear(in_feats[3], hidden_feats)
+            nn.init.xavier_normal_(self.disease_linear_LLM.weight)
+            self.encoder_LLM_1 = nn.Linear(hidden_feats, hidden_feats)
+            nn.init.xavier_normal_(self.encoder_LLM_1.weight)
+            self.encoder_LLM_2 = nn.Linear(hidden_feats, hidden_feats)
+            nn.init.xavier_normal_(self.encoder_LLM_2.weight)
+
+        if self.model_type in ['graph_graph', 'cross_graph']: 
+            self.drug_linear_LLM = nn.Linear(in_feats[2], hidden_feats)
+            nn.init.xavier_normal_(self.drug_linear_LLM.weight)
+            self.disease_linear_LLM = nn.Linear(in_feats[3], hidden_feats)
+            nn.init.xavier_normal_(self.disease_linear_LLM.weight)
+            self.encoder_LLM_1 = Node_Encoder(hidden_feats, hidden_feats, dropout, etypes)
+            self.encoder_LLM_2 = Node_Encoder(hidden_feats, hidden_feats, dropout, etypes)
+
+        self.layer_attention_layer_drug = SemanticAttention(hidden_feats)
+        self.layer_attention_layer_dis = SemanticAttention(hidden_feats)
+
+        self.layer_attention_layer_dis_LLM = SemanticAttention(hidden_feats)
+        self.layer_attention_layer_drug_LLM = SemanticAttention(hidden_feats)
+
+        self.predict = InnerProductDecoder(hidden_feats)
+
+    def forward(self, g, x):
+        if isinstance(g, list):
+            g_llm = g[1]
+            g = g[0]
+        dr_emb, di_emb = [], []
+        dr_LLM_emb, di_LLM_emb = [], []
+        if self.model_type in ['none', 'as_node']:
+            h = {'drug': x['drug'], 'disease': x['disease']}
+        else:
+            h = {'drug': x['drug'], 'disease': x['disease']}
+            h_llm = {'drug': x['drug_LLM'], 'disease': x['disease_LLM']}
+        for ntype in self.ntypes:
+            h[ntype] = x[ntype]
+        h['drug'] = self.drug_linear(h['drug'])
+        h['disease'] = self.disease_linear(h['disease'])
+        dr_emb.append(h['drug'])
+        di_emb.append(h['disease'])
+
+        h = self.encoder_1(g, h, bn=True, dp=True)
+        dr_emb.append(h['drug'])
+        di_emb.append(h['disease'])
+        h = self.encoder_2(g, h, bn=True, dp=True)
+        dr_emb.append(h['drug'])
+        di_emb.append(h['disease'])
+
+        if self.model_type in ['graph_graph', 'cross_graph']:
+            h_llm['drug'] = self.drug_linear_LLM(h_llm['drug'])
+            h_llm['disease'] = self.disease_linear_LLM(h_llm['disease'])
+            dr_LLM_emb.append(h['drug'])
+            di_LLM_emb.append(h['disease'])
+            h_llm = self.encoder_LLM_1(g_llm if self.model_type == 'graph_graph' else g_llm,
+                                       h_llm, bn=True, dp=True)
+            dr_LLM_emb.append(h_llm['drug'])
+            di_LLM_emb.append(h_llm['disease'])
+            h_llm = self.encoder_LLM_2(g_llm if self.model_type == 'graph_graph' else g_llm,
+                                       h_llm, bn=True, dp=True)
+            dr_LLM_emb.append(h_llm['drug'])
+            di_LLM_emb.append(h_llm['disease'])
+
+            if self.model_type == 'cross_graph':
+                h['drug'], h_llm['drug'] = dr_emb[0], dr_LLM_emb[0]
+                h['disease'], h_llm['disease'] = di_emb[0], di_LLM_emb[0]
+                h = self.encoder_1(g_llm, h, bn=True, dp=True)
+                dr_emb.append(h['drug'])
+                di_emb.append(h['disease'])
+                h = self.encoder_2(g_llm, h, bn=True, dp=True)
+                dr_emb.append(h['drug'])
+                di_emb.append(h['disease'])
+
+                h_llm = self.encoder_LLM_1(g, h_llm, bn=True, dp=True)
+                dr_LLM_emb.append(h_llm['drug'])
+                di_LLM_emb.append(h_llm['disease'])
+                h_llm = self.encoder_LLM_2(g, h_llm, bn=True, dp=True)
+                dr_LLM_emb.append(h_llm['drug'])
+                di_LLM_emb.append(h_llm['disease'])
+                
+        elif self.model_type == 'graph_ae':
+            h_llm['drug'] = self.drug_linear_LLM(h_llm['drug'])
+            h_llm['disease'] = self.disease_linear_LLM(h_llm['disease'])
+            dr_LLM_emb.append(h_llm['drug'])
+            di_LLM_emb.append(h_llm['disease'])
+            h_llm['drug'] = self.encoder_LLM_1(h_llm['drug'])
+            h_llm['disease'] = self.encoder_LLM_1(h_llm['disease'])
+            dr_LLM_emb.append(h['drug'])
+            di_LLM_emb.append(h['disease'])
+            h_llm['drug'] = self.encoder_LLM_2(h_llm['drug'])
+            h_llm['disease'] = self.encoder_LLM_2(h_llm['disease'])
+            dr_LLM_emb.append(h_llm['drug'])
+            di_LLM_emb.append(h_llm['disease'])
+
+        drug_emb_list = dr_emb + dr_LLM_emb
+        dis_emb_list = di_emb + di_LLM_emb
         
-        self.gcn_dense_layer4 = GraphConvolution_2(input_dim=768,
-                                                    output_dim=self.emb_dim,
-                                                    act=self.act, 
-                                                    adj=self.adj, 
-                                                    dropout=self.dropout)
-        self.gcn_dense_layer5 = GraphConvolution_2(input_dim=self.emb_dim,
-                                                output_dim=self.emb_dim,
-                                                act=self.act, 
-                                                adj=self.adj, 
-                                                dropout=self.dropout)
-        self.gcn_dense_layer6 = GraphConvolution_2(input_dim=self.emb_dim,
-                                                output_dim=self.emb_dim,
-                                                act=self.act, 
-                                                adj=self.adj, 
-                                                dropout=self.dropout)
-        # self.layer_attn2 = AttentionAggregator(num_vectors=3)
+        if self.model_type != 'none':
+            h['drug'] = self.layer_attention_layer_drug(torch.stack(drug_emb_list, dim=1))
+            h['disease'] = self.layer_attention_layer_dis(torch.stack(dis_emb_list, dim=1))
+
+        return self.predict(h)
         
-        self.decoder = InnerProductDecoder_2(input_dim=self.emb_dim,
-                                             num_r=self.num_r,
-                                             act=tf.nn.sigmoid,
-                                             dropout=self.dropout)
-        self.feat_attn_drug = AttentionAggregator(num_vectors=2)
-        self.feat_attn_dis = AttentionAggregator(num_vectors=2)
-
-    # main contribution: add new module 
-    def call(self, inputs, training=False):
-        # X is similarity matrix of drugs and diseases
-        x, drug_emb, dis_emb = inputs
-        # layer 1: sparse GCN layer 
-        hidden1 = self.gcn_sparse_layer1(x, training=training)
-        # layer 2: dense GCN layer with embedding of drug and disease similarity
-        hidden2 = self.gcn_dense_layer2(hidden1, training=training)
-        # layer 3: dense GCN layer with embedding of drug and disease similarity
-        emb = self.gcn_dense_layer3(hidden2, training=training)
-        # layer 4: attention layer
-        embeddings = self.layer_attn1(tf.stack([hidden1, hidden2, emb], axis=0))
-        # the original attention did not update weights during training
-        # embeddings = hidden1 * self.att[0] + hidden2 * self.att[1] + emb * self.att[2] 
-    
-        """Add a new feature channel with input from embeddings generated by LLM and BioBert"""  
-        # concatenate embeddings of drug and disease
-        LLM_x = tf.concat([drug_emb, dis_emb], axis=0)
-        # layer 5: dense GCN layer with embedding
-        LLMhidden1 = self.gcn_dense_layer4(LLM_x, training=training)
-        # layer 6: dense GCN layer with embedding
-        LLMhidden2 = self.gcn_dense_layer5(LLMhidden1, training=training)
-        # layer 7: dense GCN layer with embedding
-        LLMemb = self.gcn_dense_layer6(LLMhidden2, training=training)
-        # layer 8: attention layer
-        LLM_embeddings = self.layer_attn1(tf.stack([LLMhidden1, LLMhidden2, LLMemb], axis=0))
-        # the original attention did not update weights during training
-        # LLM_embeddings = LLMhidden1 * self.att[0] + LLMhidden2 * self.att[1] + LLMemb * self.att[2]
-
-        # embeddings of drug and disease from two different channels
-        drug_1, drug_2 = embeddings[0:self.num_r, :], LLM_embeddings[0:self.num_r, :] 
-        dis_1, dis_2 = embeddings[self.num_r:, :], LLM_embeddings[self.num_r:, :]
-
-        # layer 9: aggregate embeddings from two channels
-        drug_emb = self.feat_attn_drug(tf.stack([drug_1, drug_2], axis=0))
-        dis_emb = self.feat_attn_dis(tf.stack([dis_1, dis_2], axis=0))
-        
-        # concatenate embeddings of drug and disease
-        embeddings = tf.concat([drug_emb, dis_emb], axis=0)
-
-        # layer 10: decoder
-        reconstructions = self.decoder(embeddings, training=training)
-
-        return reconstructions, embeddings, LLM_embeddings
-

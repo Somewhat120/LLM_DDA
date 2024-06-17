@@ -1,275 +1,170 @@
 import os
-import pickle
+import logging
 import numpy as np
-import scipy.sparse as sp
-import tensorflow as tf
 import pandas as pd
-import gc
-import random
-from clac_metric import cv_model_evaluate
-from utils import *
-from model import GCNModel, GCNModel_2
-from opt import Optimizer
+import torch as th
+from warnings import simplefilter
+from model import Model
 from sklearn.model_selection import KFold
-
-# original code for GCN
-def PredictScore(train_drug_dis_matrix, drug_matrix, dis_matrix, seed, epochs, emb_dim, dp, lr, adjdp):
-    np.random.seed(seed)
-    # tf.reset_default_graph()
-    # tf.set_random_seed(seed)
-    adj = constructHNet(train_drug_dis_matrix, drug_matrix, dis_matrix)
-    adj = sp.csr_matrix(adj)
-    association_nam = train_drug_dis_matrix.sum()
-    X = constructNet(train_drug_dis_matrix)
-    features = sparse_to_tuple(sp.csr_matrix(X))
-    num_features = features[2][1]
-    features_nonzero = features[1].shape[0]
-    adj_orig = train_drug_dis_matrix.copy()
-    adj_orig = sparse_to_tuple(sp.csr_matrix(adj_orig))
-
-    adj_norm = preprocess_graph(adj)
-    adj_nonzero = adj_norm[1].shape[0]
-    placeholders = {
-        'features': tf.sparse_placeholder(tf.float32),
-        'adj': tf.sparse_placeholder(tf.float32),
-        'adj_orig': tf.sparse_placeholder(tf.float32),
-        'dropout': tf.placeholder_with_default(0., shape=()),
-        'adjdp': tf.placeholder_with_default(0., shape=())
-    }
-    model = GCNModel(placeholders, num_features, emb_dim,
-                     features_nonzero, adj_nonzero, train_drug_dis_matrix.shape[0], name='LAGCN')
-    with tf.name_scope('optimizer'):
-        opt = Optimizer(
-            preds=model.reconstructions,
-            labels=tf.reshape(tf.sparse_tensor_to_dense(
-                placeholders['adj_orig'], validate_indices=False), [-1]),
-            model=model,
-            lr=lr, num_u=train_drug_dis_matrix.shape[0], num_v=train_drug_dis_matrix.shape[1],
-            association_nam=association_nam)
-    sess = tf.Session()
-    sess.run(tf.global_variables_initializer())
-
-    for epoch in range(epochs):
-        feed_dict = dict()
-        feed_dict.update({placeholders['features']: features})
-        feed_dict.update({placeholders['adj']: adj_norm})
-        feed_dict.update({placeholders['adj_orig']: adj_orig})
-        feed_dict.update({placeholders['dropout']: dp})
-        feed_dict.update({placeholders['adjdp']: adjdp})
-        _, avg_cost = sess.run([opt.opt_op, opt.cost], feed_dict=feed_dict)
-
-        if epoch % 100 == 0:
-            feed_dict.update({placeholders['dropout']: 0})
-            feed_dict.update({placeholders['adjdp']: 0})
-            res = sess.run(model.reconstructions, feed_dict=feed_dict)
-            print("Epoch:", '%04d' % (epoch + 1),
-                  "train_loss=", "{:.5f}".format(avg_cost))
-    print('Optimization Finished!')
-    feed_dict.update({placeholders['dropout']: 0})
-    feed_dict.update({placeholders['adjdp']: 0})
-    res = sess.run(model.reconstructions, feed_dict=feed_dict)
-    sess.close()
-    return res
-
-from tensorflow.keras.optimizers import Adam
-"""Modified code from TF 1.x to TF 2.x"""
-# Define a function to train a GCN and predict the score of drug-disease association
-def PredictScore_2(train_drug_dis_matrix, drug_matrix, dis_matrix, drug_emb, dis_emb, 
-                   seed, epochs, emb_dim, dp, lr, adjdp):
-    np.random.seed(seed)
-    tf.random.set_seed(seed)
-    adj = constructHNet(train_drug_dis_matrix, drug_matrix, dis_matrix)
-    adj = sp.csr_matrix(adj)
-    adj_norm = preprocess_graph(adj)
-    adj_ = tf.SparseTensor(*adj_norm)
-    X = constructNet(train_drug_dis_matrix)
-    features = sparse_to_tuple(sp.csr_matrix(X))
-
-    # construct a GCN model instance 
-    model = GCNModel_2(num_features=features[2][1], emb_dim=emb_dim, 
-                     features_nonzero=features[1].shape[0], adj_nonzero=adj.nonzero()[0].shape[0], 
-                     adj=adj_, adjdp=adjdp, dp=dp,
-                     num_r=train_drug_dis_matrix.shape[0])
-
-    # compile the model
-    model.compile(optimizer=Adam(learning_rate=lr), loss='binary_crossentropy')
-
-    # convert the input data to tensor
-    features_input = tf.SparseTensor(*features)
-
-    drug_emb = tf.convert_to_tensor(drug_emb, dtype=tf.float32)
-    dis_emb = tf.convert_to_tensor(dis_emb, dtype=tf.float32)
-
-    for epoch in range(epochs):
-        # 训练模型
-        with tf.GradientTape() as tape:
-            reconstructions, embeddings, LLM_embeddings = model((features_input, drug_emb, dis_emb), training=True)
-            loss = tf.reduce_mean(tf.keras.losses.binary_crossentropy(train_drug_dis_matrix.flatten(), reconstructions))
-
-        grads = tape.gradient(loss, model.trainable_variables)
-        model.optimizer.apply_gradients(zip(grads, model.trainable_variables))
-
-        if epoch % 100 == 0:
-            print("Epoch:", '%04d' % (epoch + 1), "train_loss=", "{:.5f}".format(loss.numpy()))
-
-    print('Optimization Finished!')
-
-    # 生成预测结果
-    reconstructions, embeddings, LLM_embeddings = model((features_input, drug_emb, dis_emb), training=False)
-    return reconstructions
+from load_data import load_dataset, remove_graph, generate_feat
+from utils import define_logging, get_metrics_auc, set_seed, plot_result_auc,\
+    plot_result_aupr, EarlyStopping, get_metrics
+from args import args
 
 
-def cross_validation_experiment(drug_dis_matrix, drug_matrix, dis_matrix, seed, epochs, emb_dim, dp, lr, adjdp):
-    index_matrix = np.mat(np.where(drug_dis_matrix == 1))
-    association_nam = index_matrix.shape[1]
-    random_index = index_matrix.T.tolist()
-    random.seed(seed)
-    random.shuffle(random_index)
-    k_folds = 5
-    CV_size = int(association_nam / k_folds)
-    temp = np.array(random_index[:association_nam - association_nam %
-                                  k_folds]).reshape(k_folds, CV_size, -1).tolist()
-    temp[k_folds - 1] = temp[k_folds - 1] + \
-                        random_index[association_nam - association_nam % k_folds:]
-    random_index = temp
-
-    ##############################################
-    # df = pd.read_csv('/home/gyw/DDA_prediction/data_1pos_1neg.csv')
-    # df = df[df['Label'] == 1].values[:, :-1]
-    metric = np.zeros((1, 7))
-    print("seed=%d, evaluating drug-disease...." % (seed))
-    # kfold = KFold(n_splits=5, shuffle=True, random_state=0)
-    # for train_idx, test_idx in kfold.split(df):
-    #     random_index.append(df[train_idx].tolist())
-    tr, pr = [], []
-
-    # tr_index = np.load(f'../data/B-dataset/train_{seed}.npy')
-    # te_index = np.load(f'../data/B-dataset/test_{seed}.npy')
-    pred_matrix = np.zeros(drug_dis_matrix.shape)
-    for k in range(k_folds):
-        print("------this is %dth cross validation------" % (k + 1))
-        train_matrix = np.matrix(drug_dis_matrix, copy=True)
-        train_matrix[tuple(np.array(random_index[k]).T)] = 0
-
-        # train_matrix[te_index] = 0
-        drug_len = drug_dis_matrix.shape[0]
-        dis_len = drug_dis_matrix.shape[1]
-        drug_disease_res = PredictScore(
-            train_matrix, drug_matrix, dis_matrix, seed, epochs, emb_dim, dp, lr, adjdp)
-        predict_y_proba = drug_disease_res.reshape(drug_len, dis_len)
-        test_index = np.where(train_matrix == 0)
-        metric_tmp, true, pred = cv_model_evaluate(
-            drug_dis_matrix, predict_y_proba, train_matrix)
-        pred_matrix[test_index] = predict_y_proba[test_index]
-        # np.save('../result/kang_t_pred_{}.npy'.format(seed), predict_y_proba[te_index])
-        # np.save('../result/kang_t_label_{}.npy'.format(seed), drug_dis_matrix[te_index])
-        # return
-        pred_matrix[tuple(np.array(random_index[k]).T)] = predict_y_proba[tuple(np.array(random_index[k]).T)]
-        tr.append(drug_dis_matrix[test_index])
-        pr.append(predict_y_proba[test_index])
-
-        print(metric_tmp)
-        metric += metric_tmp
-        del train_matrix
-        gc.collect()
-    print(metric / k_folds)
-    # AUPR AUC F1-Score Accuracy Recall Specificity Precision
-    metric = np.array(metric / k_folds)
-    return metric, pred_matrix
-
-
-def cross_validation_experiment_2(drug_dis_matrix, drug_matrix, dis_matrix, drug_emb, dis_emb,
-                                 seed, epochs, emb_dim, dp, lr, adjdp):
-    index_matrix = np.mat(np.where(drug_dis_matrix == 1))
-    association_nam = index_matrix.shape[1]
-    random_index = index_matrix.T.tolist()
-    random.seed(seed)
-    random.shuffle(random_index)
-    k_folds = 5
-    CV_size = int(association_nam / k_folds)
-    temp = np.array(random_index[:association_nam - association_nam %
-                                  k_folds]).reshape(k_folds, CV_size, -1).tolist()
-    temp[k_folds - 1] = temp[k_folds - 1] + \
-                        random_index[association_nam - association_nam % k_folds:]
-    random_index = temp
-
-    ##############################################
-    # df = pd.read_csv('/home/gyw/DDA_prediction/data_1pos_1neg.csv')
-    # df = df[df['Label'] == 1].values[:, :-1]
-    metric = np.zeros((1, 7))
-    print("seed=%d, evaluating drug-disease...." % (seed))
-    # kfold = KFold(n_splits=5, shuffle=True, random_state=0)
-    # for train_idx, test_idx in kfold.split(df):
-    #     random_index.append(df[train_idx].tolist())
-    tr, pr = [], []
-
-    # tr_index = np.load(f'../data/B-dataset/train_{seed}.npy')
-    # te_index = np.load(f'../data/B-dataset/test_{seed}.npy')
-    pred_matrix = np.zeros(drug_dis_matrix.shape)
-    for k in range(k_folds):
-        print("------this is %dth cross validation------" % (k + 1))
-        train_matrix = np.matrix(drug_dis_matrix, copy=True)
-        train_matrix[tuple(np.array(random_index[k]).T)] = 0
-
-        # train_matrix[te_index] = 0
-        drug_len = drug_dis_matrix.shape[0]
-        dis_len = drug_dis_matrix.shape[1]
-        drug_disease_res = PredictScore_2(
-            train_matrix, drug_matrix, dis_matrix, drug_emb, dis_emb, 
-            seed, epochs, emb_dim, dp, lr, adjdp)
-        predict_y_proba = tf.reshape(drug_disease_res, [drug_len, dis_len])
-        predict_y_proba = predict_y_proba.numpy()
-        test_index = np.where(train_matrix == 0)
-        metric_tmp, true, pred = cv_model_evaluate(
-            drug_dis_matrix, predict_y_proba, train_matrix)
-        pred_matrix[test_index] = predict_y_proba[test_index]
-        # np.save('../result/kang_t_pred_{}.npy'.format(seed), predict_y_proba[te_index])
-        # np.save('../result/kang_t_label_{}.npy'.format(seed), drug_dis_matrix[te_index])
-        # return
-        pred_matrix[tuple(np.array(random_index[k]).T)] = predict_y_proba[tuple(np.array(random_index[k]).T)]
-        tr.append(drug_dis_matrix[test_index])
-        pr.append(predict_y_proba[test_index])
-
-        metric += metric_tmp
-        del train_matrix
-        gc.collect()
-    print(metric / k_folds)
-    # AUPR AUC F1-Score Accuracy Recall Specificity Precision
-    metric = np.array(metric / k_folds)
-    return metric, pred_matrix
-
-if __name__ == "__main__":
-    from argparse import Namespace
-    args = Namespace(dataset='B-dataset', save_dir='result_LLM') # to save the result for vanilla GCN, to 'result_origin'
-    save_path = f'../result/{args.save_dir}/{args.dataset}'
+def train():
+    set_seed(args.seed)
+    if not os.path.exists(args.saved_path):
+        os.makedirs(args.saved_path)
+    # if os.path.exists(os.path.join(args.saved_path, 'result.csv')):
+    #     # this means the result for the current setting has been saved, no need to re-run
+    #     return
+    simplefilter(action='ignore', category=FutureWarning)
+    logger = logging.getLogger("my_logger")
+    logger.setLevel(logging.INFO)
+    define_logging(args, logger)
+    logger.info(args)
     
-    if not os.path.exists(save_path):
-        os.makedirs(save_path)
+    if args.device_id:
+        logger.info('Training on GPU')
+        device = th.device('cuda:{}'.format(args.device_id))
+    else:
+        logger.info('Training on CPU')
+        device = th.device('cpu')
+    args.device = device
 
-    drug_sim = np.loadtxt(f'../data/{args.dataset}/drug_sim.csv', delimiter=',')
-    print(drug_sim.shape)
-    dis_sim = np.loadtxt(f'../data/{args.dataset}/dis_sim.csv', delimiter=',')
-    print(dis_sim.shape)
-    drug_dis_matrix = np.loadtxt(f'../data/{args.dataset}/drug_dis.csv', delimiter=',')
-    print(drug_dis_matrix.shape)
-    epoch = 4000
-    emb_dim = 64
-    lr = 0.008
-    adjdp = 0.6
-    dp = 0.4
-    simw = 6
-    results = np.zeros((10, 7), float)
-    average_result = np.zeros((10, 11), float)
-    circle_time = 10
+    # load DDA data for Kfold splitting
+    df = pd.read_csv('../data/{}/drug_dis.csv'.format(args.dataset),
+                      header=None).values
+    data = np.array([[i, j, df[i, j]] for i in range(df.shape[0]) for j in range(df.shape[1])])
+    data = data.astype('int64')
+    data_pos = data[np.where(data[:, -1] == 1)[0]]
+    data_neg = data[np.where(data[:, -1] == 0)[0]]
+    assert len(data) == len(data_pos) + len(data_neg)
 
-    drug = pickle.load(open('../feat/drug_embeddings.pkl', 'rb'))
-    dis = pickle.load(open('../feat/disease_embeddings.pkl', 'rb'))
-    drug_emb = np.array([i.squeeze().numpy() for i in drug['embeddings'].values])
-    dis_emb = np.array([i.squeeze().numpy() for i in dis['embeddings'].values])
+    set_seed(args.seed)
+    kf = KFold(n_splits=args.nfold, shuffle=True, 
+                         random_state=args.seed)
+    fold = 1
+    pred_result = np.zeros(df.shape)
 
-    for i in range(10):
-        result, pred_matrix = cross_validation_experiment_2(
-            drug_dis_matrix, drug_sim * simw, dis_sim * simw, drug_emb, dis_emb, i, epoch, emb_dim, dp, lr, adjdp)
-        results[i] = result
+    for (train_pos_idx, test_pos_idx), (train_neg_idx, test_neg_idx) in zip(kf.split(data_pos),
+                                                                            kf.split(data_neg)):
+        logger.info('{}-Cross Validation: Fold {}'.format(args.nfold, fold))
+        
+        # get the index list for train and test set
+        train_pos_id, test_pos_id = data_pos[train_pos_idx], data_pos[test_pos_idx]
+        train_neg_id, test_neg_id = data_neg[train_neg_idx], data_neg[test_neg_idx]
+        train_pos_idx = [tuple(train_pos_id[:, 0]), tuple(train_pos_id[:, 1])]
+        test_pos_idx = [tuple(test_pos_id[:, 0]), tuple(test_pos_id[:, 1])]
+        train_neg_idx = [tuple(train_neg_id[:, 0]), tuple(train_neg_id[:, 1])]
+        test_neg_idx = [tuple(test_neg_id[:, 0]), tuple(test_neg_id[:, 1])]
+        assert len(test_pos_idx[0]) + len(test_neg_idx[0]) + len(train_pos_idx[0]) + len(train_neg_idx[0]) == len(data)
+        
+        g = load_dataset(args)
+        logger.info(g)
+        # remove test set DDA from train graph
+        g, g_llm = g[0], g[1]
+        g = remove_graph(g, test_pos_id).to(args.device)
+        g_llm = remove_graph(g_llm, test_pos_id).to(args.device)
+        
+        # generate features based on model type
+        feature = generate_feat(args, [g, g_llm])    
 
-        np.save(f'{save_path}/{args.dataset}_{i}.npy', pred_matrix)
+        # get the mask list for train and test set that used for performance calculation
+        mask_label = np.ones(df.shape)
+        mask_label[test_pos_idx[0], test_pos_idx[1]] = 0
+        mask_label[test_neg_idx[0], test_neg_idx[1]] = 0
+        mask_test = np.where(mask_label == 0)
+        mask_test = [tuple(mask_test[0]), tuple(mask_test[1])]
+        mask_train = np.where(mask_label == 1)
+        mask_train = [tuple(mask_train[0]), tuple(mask_train[1])]
+
+        logger.info('Number of total training samples: {}, pos samples: {}, neg samples: {}'.format(len(mask_train[0]),
+                                                                                              len(train_pos_idx[0]),
+                                                                                              len(train_neg_idx[0])))
+        logger.info('Number of total testing samples: {}, pos samples: {}, neg samples: {}'.format(len(mask_test[0]),
+                                                                                             len(test_pos_idx[0]),
+                                                                                             len(test_neg_idx[0])))
+        assert len(mask_test[0]) == len(test_neg_idx[0]) + len(test_pos_idx[0])
+        label = th.tensor(df).float().to(args.device)
+        
+        # load model and optimizer
+        if args.concatenate_type in ['none', 'as_node']:
+            model = Model(args=args,
+                          etypes=g.etypes, ntypes=g.ntypes,
+                          in_feats=[feature['drug'].shape[1],
+                                    feature['disease'].shape[1]])
+        else:
+            model = Model(args=args,
+                          etypes=g.etypes, ntypes=g.ntypes,
+                          in_feats=[feature['drug'].shape[1],
+                                    feature['disease'].shape[1],
+                                    feature['drug_LLM'].shape[1],
+                                    feature['disease_LLM'].shape[1]])
+        model.to(args.device)
+
+        optimizer = th.optim.Adam(model.parameters(),
+                                  lr=args.learning_rate,
+                                  weight_decay=args.weight_decay)
+        optim_scheduler = th.optim.lr_scheduler.CyclicLR(optimizer,
+                                                         base_lr=0.1 * args.learning_rate,
+                                                         max_lr=args.learning_rate,
+                                                         gamma=0.995,
+                                                         step_size_up=20,
+                                                         mode="exp_range",
+                                                         cycle_momentum=False)
+        criterion = th.nn.BCEWithLogitsLoss(pos_weight=th.tensor(len(train_neg_idx[0]) / len(train_pos_idx[0])))
+        # no pos weight
+        # criterion = th.nn.BCEWithLogitsLoss()
+        logger.info('Loss pos weight: {:.3f}'.format(len(train_neg_idx[0]) / len(train_pos_idx[0])))
+        # stopper = EarlyStopping(patience=args.patience, saved_path=args.saved_path)
+        
+        # model training
+        for epoch in range(1, args.epoch + 1):
+            model.train()
+            score = model([g, g_llm], feature)
+            pred = th.sigmoid(score)
+            loss = criterion(score[mask_train].cpu().flatten(),
+                             label[mask_train].cpu().flatten())
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            optim_scheduler.step()
+            model.eval()
+            AUC_, _ = get_metrics_auc(label[mask_train].cpu().detach().numpy(),
+                                      pred[mask_train].cpu().detach().numpy())
+            # early_stop = stopper.step(loss.item(), AUC_, model)
+
+            if epoch % 50 == 0:
+                AUC, AUPR = get_metrics_auc(label[mask_test].cpu().detach().numpy(),
+                                            pred[mask_test].cpu().detach().numpy())
+                logger.info('Epoch {} Loss: {:.3f}; Train AUC {:.3f}; AUC {:.3f}; AUPR: {:.3f}'.format(epoch, loss.item(),
+                                                                                                 AUC_, AUC, AUPR))
+                # print('-' * 50)
+                # if early_stop:
+                #     break
+            
+        # stopper.load_checkpoint(model)
+        model.eval()
+        pred = th.sigmoid(model([g, g_llm], feature)).cpu().detach().numpy()
+        test_pos_idx, test_neg_idx = np.array(test_pos_idx), np.array(test_neg_idx)
+        pred_result[test_pos_idx[0], test_pos_idx[1]] = pred[test_pos_idx[0], test_pos_idx[1]]
+        pred_result[test_neg_idx[0], test_neg_idx[1]] = pred[test_neg_idx[0], test_neg_idx[1]]
+        # save the model
+        th.save(model.state_dict(), os.path.join(args.saved_path, 'model_fold_{}.pth'.format(fold)))
+        fold += 1
+
+    # save the result
+    AUC, aupr, acc, f1, pre, rec, spec = get_metrics(label.cpu().detach().numpy().flatten(), pred_result.flatten())
+    logger.info(
+        'Overall: AUC {:.3f}; AUPR: {:.3f}; Acc: {:.3f}; F1: {:.3f}; Precision {:.3f}; Recall {:.3f}'.
+            format(AUC, aupr, acc, f1, pre, rec))
+    pd.DataFrame(pred_result).to_csv(os.path.join(args.saved_path,
+                                                  'result.csv'), index=False, header=False)
+    plot_result_auc(args, data[:, -1].flatten(), pred_result.flatten(), AUC)
+    plot_result_aupr(args, data[:, -1].flatten(), pred_result.flatten(), aupr)
+
+
+if __name__ == '__main__':
+    train()

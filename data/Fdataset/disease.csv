@@ -1,0 +1,314 @@
+ID,Disease,Name
+0,D102100,"acromegaloid changes, cutis verticis gyrata, and corneal leukoma"
+1,D102300,"restless legs syndrome, susceptibility to, 1; rls1"
+2,D102400,acroosteolysis
+3,D102500,hajdu-cheney syndrome; hjcys
+4,D103100,adie pupil
+5,D103780,alcohol dependence
+6,D104130,"alopecia, psychomotor epilepsy, pyorrhea, and mental subnormality"
+7,D104300,"alzheimer disease, familial, 1; ad1"
+8,D106400,ankylosing vertebral hyperostosis with tylosis
+9,D107320,"antiphospholipid syndrome, familial"
+10,D107550,"aortic arch interruption, facial palsy, and retinal coloboma"
+11,D107650,"apnea, obstructive sleep"
+12,D109100,autoimmune disease
+13,D109200,"alopecia, androgenetic, 1; aga1"
+14,D109350,gastroesophageal reflux; ger
+15,D109543,"leukemia, chronic lymphocytic, susceptibility to, 2"
+16,D109800,bladder cancer
+17,D110100,"blepharophimosis, ptosis, and epicanthus inversus; bpes"
+18,D113610,branchial myoclonus with spastic paraparesis and cerebellar ataxia
+19,D114480,breast cancer
+20,D114500,colorectal cancer; crc
+21,D114550,hepatocellular carcinoma
+22,D114580,"candidiasis, familial, 1; candf1"
+23,D115000,ventricular arrhythmias due to cardiac ryanodine receptor calcium release deficiency syndrome; vacrds
+24,D115195,"cardiomyopathy, familial hypertrophic, 2; cmh2"
+25,D115300,"hypercarotenemia and vitamin a deficiency, autosomal dominant; hcvad"
+26,D115645,"cataract, aberrant oral frenula, and growth retardation"
+27,D119500,popliteal pterygium syndrome; pps
+28,D121200,"seizures, benign familial neonatal, 1; bfns1"
+29,D121201,"seizures, benign familial neonatal, 2; bfns2"
+30,D125310,"cerebral arteriopathy, autosomal dominant, with subcortical infarcts and leukoencephalopathy, type 1; cadasil1"
+31,D125320,dementia/parkinsonism with non-alzheimer amyloid plaques
+32,D125600,dermatosis papulosa nigra
+33,D125700,"diabetes insipidus, neurohypophyseal"
+34,D125850,"maturity-onset diabetes of the young, type 1; mody1"
+35,D125851,"maturity-onset diabetes of the young, type 2; mody2"
+36,D125852,type 1 diabetes mellitus 2; t1d2
+37,D125853,type 2 diabetes mellitus; t2d
+38,D126200,"multiple sclerosis, susceptibility to; ms"
+39,D127350,dyschondrosteosis and nephritis
+40,D127750,"dementia, lewy body; dlb"
+41,D128101,"dystonia 4, torsion, autosomal dominant; dyt4"
+42,D131200,"endometriosis, susceptibility to, 1"
+43,D131300,camurati-engelmann disease; caend
+44,D131440,"myeloproliferative disorder, chronic, with eosinophilia"
+45,D132090,"epilepsy, benign occipital; boe"
+46,D132100,photoparoxysmal response 1; ppr1
+47,D132300,"epilepsy, reading"
+48,D133239,esophageal cancer
+49,D133600,exostoses of heel
+50,D133690,"exostoses with anetodermia and brachydactyly, type e"
+51,D134430,"factor vii and factor viii, combined deficiency of"
+52,D134500,factor viii deficiency
+53,D134510,"factor viii and factor ix, combined deficiency of; f8f9d"
+54,D134520,"factors viii, ix and xi, combined deficiency of"
+55,D134750,felty syndrome
+56,D135550,"fibromatosis, gingival, with progressive deafness"
+57,D136200,flushing of ears and somnolence
+58,D137215,diffuse gastric and lobular breast cancer syndrome; dglbc
+59,D137400,geographic and fissured tongue
+60,D137580,gilles de la tourette syndrome; gts
+61,D137750,"glaucoma 1, open angle, a; glc1a"
+62,D137760,"glaucoma, primary open angle; poag"
+63,D137800,glioma susceptibility 1; glm1
+64,D138800,"goiter, multinodular 1, with or without sertoli-leydig cell tumors; mng1"
+65,D140300,hashimoto thyroiditis
+66,D140600,osteoarthritis susceptibility 2; os2
+67,D140850,"hemangiomas, cavernous, of face and supraumbilical midline raphe"
+68,D143100,huntington disease; hd
+69,D143465,attention deficit-hyperactivity disorder; adhd
+70,D143500,gilbert syndrome
+71,D143880,"hypercalcemia, infantile, 1; hcinf1"
+72,D144010,"hypercholesterolemia, familial, 2; fhcl2"
+73,D144110,hyperhidrosis palmaris et plantaris; hyprpp
+74,D144650,"hyperlipoproteinemia, type v"
+75,D144700,"renal cell carcinoma, nonpapillary; rcc"
+76,D145100,hyperpigmentation of eyelids
+77,D145200,hyperpigmentation of fuldauer and kuijpers
+78,D145500,"hypertension, essential"
+79,D145590,"hyperthermia, cutaneous, with headaches and nausea"
+80,D145600,"malignant hyperthermia, susceptibility to, 1; mhs1"
+81,D146110,hypogonadotropic hypogonadism 7 with or without anosmia; hh7
+82,D146255,"hypoparathyroidism, sensorineural deafness, and renal dysplasia syndrome; hdrs"
+83,D146500,"multiple system atrophy 1, susceptibility to; msa1"
+84,D146850,immune suppression; is
+85,D147480,"cholestasis, intrahepatic, of pregnancy, 1; icp1"
+86,D147530,insensitivity to pain with hyperplastic myelinopathy
+87,D147540,"insect stings, hypersensitivity to"
+88,D148000,"kaposi sarcoma, susceptibility to"
+89,D148100,keloid formation; kldf
+90,D150600,legg-calve-perthes disease; lcpd
+91,D150699,"leiomyoma, uterine; ul"
+92,D151400,"leukemia, chronic lymphocytic; cll"
+93,D151590,lichen sclerosus et atrophicus; lsa
+94,D152700,systemic lupus erythematosus; sle
+95,D153880,"macular dystrophy, dominant cystoid; dcmd"
+96,D154276,"malignant hyperthermia, susceptibility to, 3"
+97,D155100,macrothrombocytopenia and granulocyte inclusions with or without nephritis or sensorineural hearing loss; matins
+98,D155600,"melanoma, cutaneous malignant, susceptibility to, 1; cmm1"
+99,D155601,"melanoma, cutaneous malignant, susceptibility to, 2; cmm2"
+100,D156000,meniere disease
+101,D156190,mental and growth retardation with amblyopia
+102,D157300,"migraine with or without aura, susceptibility to, 1"
+103,D157700,mitral valve prolapse 1; mvp1
+104,D157950,"permanent molars, secondary retention of"
+105,D158280,motion sickness
+106,D160300,"myopathy, distal, infantile-onset"
+107,D160750,myositis
+108,D161900,"renal failure, progressive, with hypertension; rfh1"
+109,D164230,obsessive-compulsive disorder; ocd
+110,D165150,"ophthalmoplegia, progressive, with scrotal tongue and mental deficiency"
+111,D165199,"optic atrophy, hearing loss, and peripheral neuropathy, autosomal dominant"
+112,D165720,osteoarthritis susceptibility 1; os1
+113,D166300,multicentric carpotarsal osteolysis syndrome; mcto
+114,D166710,osteoporosis
+115,D166760,"otitis media, susceptibility to; oms"
+116,D167320,inclusion body myopathy with early-onset paget disease with or without frontotemporal dementia 1; ibmpfd1
+117,D167870,panic disorder 1; pand1
+118,D168100,"paralysis agitans, juvenile, of hunt"
+119,D168600,"parkinson disease, late-onset; pd"
+120,D170900,pernicious anemia
+121,D171300,pheochromocytoma
+122,D173200,pityriasis rubra pilaris; prp
+123,D174800,mccune-albright syndrome; mas
+124,D175100,familial adenomatous polyposis 1; fap1
+125,D175505,moved to 619182
+126,D175510,gist-plus syndrome; gistps
+127,D176800,"pronation-supination of the forearm, impairment of"
+128,D176807,prostate cancer
+129,D178600,"pulmonary hypertension, primary, 1; pph1"
+130,D179600,raynaud disease
+131,D179800,"renal tubular acidosis, distal, 1; drta1"
+132,D179830,"renal tubular acidosis, proximal"
+133,D181000,"sarcoidosis, susceptibility to, 1; ss1"
+134,D181460,"schistosoma mansoni infection, susceptibility/resistance to"
+135,D181500,schizophrenia; sczd
+136,D182000,"keratosis, seborrheic"
+137,D182280,small cell cancer of the lung
+138,D182830,"spastic paraplegia, optic atrophy, and dementia"
+139,D184700,polycystic ovary syndrome 1; pcos1
+140,D187950,thrombocythemia 1; thcyt1
+141,D188030,immune thrombocytopenia; itp
+142,D188050,thrombophilia due to thrombin defect; thph1
+143,D188470,"thyroid cancer, nonmedullary, 2; nmtc2"
+144,D189600,torticollis
+145,D189800,preeclampsia/eclampsia 1; pee1
+146,D190300,"tremor, hereditary essential, 1; etm1"
+147,D190310,"tremor, nystagmus, and duodenal ulcer"
+148,D190400,trigeminal neuralgia
+149,D191390,inflammatory bowel disease 11; ibd11
+150,D191800,"bladder dysfunction, autonomic, with impaired pupillary reflex and secondary cakut; baiprck"
+151,D192000,uterine anomalies
+152,D192200,varicose veins
+153,D194070,wilms tumor 1; wt1
+154,D194200,wolff-parkinson-white syndrome; wpw
+155,D200170,acanthosis nigricans with muscle cramps and acral enlargement
+156,D203700,mitochondrial dna depletion syndrome 4a (alpers type); mtdps4a
+157,D205700,"anemia, autoimmune hemolytic"
+158,D206200,iron-refractory iron deficiency anemia; irida
+159,D208085,"arthrogryposis, renal dysfunction, and cholestasis 1; arcs1"
+160,D208230,progressive pseudorheumatoid dysplasia; pprd
+161,D208300,"ascites, chylous"
+162,D208550,"asthma, nasal polyps, and aspirin intolerance"
+163,D208700,ataxia with myoclonic epilepsy and presenile dementia
+164,D208750,"ataxia, deafness, and cardiomyopathy"
+165,D208920,"ataxia, early-onset, with oculomotor apraxia and hypoalbuminemia; eaoh"
+166,D210050,"berry aneurysm, cirrhosis, pulmonary emphysema, and cerebral calcification"
+167,D211980,lung cancer
+168,D212050,"immunodeficiency 103, susceptibility to fungal infections; imd103"
+169,D212110,moved to 611880
+170,D212112,"cardiomyopathy, dilated, with hypergonadotropic hypogonadism"
+171,D212130,cardiomyopathy associated with myopathy and sudden death
+172,D212140,"carnitine deficiency, systemic primary; cdsp"
+173,D212350,sengers syndrome
+174,D215140,greenberg dysplasia; grbgd
+175,D215470,boucher-neuhauser syndrome; bnhs
+176,D217150,"contractures, congenital, torticollis, and malignant hyperthermia"
+177,D217200,"convulsive disorder, familial, with prenatal or early onset"
+178,D218200,"cranial nerves, recurrent paresis of"
+179,D218800,"crigler-najjar syndrome, type i"
+180,D220120,d-glyceric aciduria
+181,D223350,dohle bodies and leukemia
+182,D225740,"encephalopathy, axonal, with necrotizing myopathy, cardiomyopathy, and cataracts"
+183,D225755,"encephalopathy with intracranial calcification, growth hormone deficiency, microcephaly, and retinal degeneration"
+184,D226000,endocardial fibroelastosis; efe
+185,D226150,enterocolitis
+186,D227300,"factor v and factor viii, combined deficiency of, 1; f5f8d1"
+187,D230450,"gamma-glutamylcysteine synthetase deficiency, hemolytic anemia due to"
+188,D230800,"gaucher disease, type i; gd1"
+189,D231090,"hydatidiform mole, recurrent, 1; hydm1"
+190,D231200,bernard-soulier syndrome; bss
+191,D231900,"glutathione synthetase deficiency of erythrocytes, hemolytic anemia due to; gssde"
+192,D233810,"growth retardation, small and puffy hands and feet, and eczema"
+193,D236000,"lymphoma, hodgkin, classic; chl"
+194,D237450,"hyperbilirubinemia, rotor type; hblrr"
+195,D237500,dubin-johnson syndrome; djs
+196,D238800,hypermetabolism due to uncoupled mitochondrial oxidative phosphorylation 1; humop1
+197,D239350,"hyperphosphatemia, polyuria, and seizures"
+198,D240400,hypoascorbemia
+199,D241100,"hypogonadism, male"
+200,D241519,"hypophosphatemia, renal, with intracerebral calcifications"
+201,D243200,"intracranial hypertension, idiopathic"
+202,D246300,"leprosy, susceptibility to, 3; lprs3"
+203,D246400,letterer-siwe disease
+204,D246470,"leukemia, acute myelocytic, with polyposis coli and colon cancer"
+205,D247200,miller-dieker lissencephaly syndrome; mdls
+206,D247640,"lymphoblastic leukemia, acute, with lymphomatous features; lall"
+207,D248190,"hypomagnesemia 5, renal, with or without ocular involvement; homg5"
+208,D249100,familial mediterranean fever; fmf
+209,D250790,methemoglobinemia and ambiguous genitalia; metag
+210,D252320,"motor neuropathy, peripheral, with dysautonomia"
+211,D254200,myasthenia gravis; mg
+212,D254400,mycosis fungoides
+213,D254450,myelofibrosis
+214,D254500,"myeloma, multiple"
+215,D254770,"epilepsy, myoclonic juvenile; ejm"
+216,D254800,myoclonic epilepsy of unverricht and lundborg
+217,D255900,myxedema
+218,D256370,"nephrotic syndrome, type 4; nphs4"
+219,D256700,"neuroblastoma, susceptibility to, 1; nblst1"
+220,D258360,onychotrichodysplasia and neutropenia
+221,D259050,primrose syndrome; prims
+222,D259500,osteogenic sarcoma
+223,D259660,moved to 259775
+224,D260480,"pancreatitis, sclerosing cholangitis, and sicca complex"
+225,D260570,immunodeficiency 108 with autoinflammation; imd108
+226,D260970,"peripheral neuropathy, ataxia, focal necrotizing encephalopathy, and spongy degeneration of brain"
+227,D261515,d-bifunctional protein deficiency
+228,D263300,polycythemia vera; pv
+229,D263800,gitelman syndrome; gtlmns
+230,D264120,prolactin deficiency with obesity and enlarged testes
+231,D266120,"uridine 5-prime monophosphate hydrolase deficiency, hemolytic anemia due to"
+232,D266600,inflammatory bowel disease (crohn disease) 1; ibd1
+233,D267730,reticulum cell sarcoma
+234,D267740,retinal degeneration and epilepsy
+235,D268220,rhabdomyosarcoma 2; rms2
+236,D268320,rodrigues blindness
+237,D270960,spermatogenic failure 4; spgf4
+238,D273300,testicular germ cell tumor; tgct
+239,D273800,glanzmann thrombasthenia 1; gt1
+240,D275000,graves disease; grd
+241,D276300,mismatch repair cancer syndrome 1; mmrcs1
+242,D277350,"hypercarotenemia and vitamin a deficiency, autosomal recessive"
+243,D277440,"vitamin d-dependent rickets, type 2a; vddr2a"
+244,D277460,ataxia with vitamin e deficiency; aved
+245,D278200,"woolly hair, hypotrichosis, everted lower lip, and outstanding ears"
+246,D300125,"migraine with or without aura, susceptibility to, 2"
+247,D300232,"spondyloepimetaphyseal dysplasia, x-linked, with hypomyelinating leukodystrophy; semdhl"
+248,D300491,"epilepsy, x-linked 1, with variable learning disabilities and behavior disorders; epilx1"
+249,D300494,moved to 300425
+250,D303110,chromosome xq21 deletion syndrome
+251,D304790,"immunodysregulation, polyendocrinopathy, and enteropathy, x-linked; ipex"
+252,D304900,"diabetes insipidus, neurohypophyseal, x-linked"
+253,D305300,moved to 302060
+254,D308205,"ifap syndrome 1, with or without bresheck syndrome; ifap1"
+255,D308350,developmental and epileptic encephalopathy 1; dee1
+256,D308600,"jaundice, familial obstructive, of infancy"
+257,D310468,"nephrolithiasis, x-linked recessive, with renal failure; xrn"
+258,D311360,premature ovarian failure 1; pof1
+259,D312910,spastic paraparesis and deafness
+260,D540000,"mitochondrial myopathy, encephalopathy, lactic acidosis, and stroke-like episodes; melas"
+261,D600082,"prostatic hyperplasia, benign; bph"
+262,D600131,"epilepsy, childhood absence, susceptibility to, 1; eca1"
+263,D600263,"helicobacter pylori infection, susceptibility to"
+264,D600351,"enteropathy, familial, with villous edema and immunoglobulin g2 deficiency"
+265,D600496,"maturity-onset diabetes of the young, type 3; mody3"
+266,D600631,"enuresis, nocturnal, 1; enur1"
+267,D600634,moved to 102200
+268,D600803,gallbladder disease 1; gbd1
+269,D600807,"asthma, susceptibility to"
+270,D600808,"enuresis, nocturnal, 2; enur2"
+271,D601004,"portal vein, cavernous transformation of"
+272,D601042,dystonia 9; dyt9
+273,D601367,"stroke, ischemic"
+274,D601518,"prostate cancer, hereditary, 1; hpc1"
+275,D601608,spastic paraplegia and evans syndrome
+276,D601626,"leukemia, acute myeloid; aml"
+277,D601665,obesity
+278,D601682,"glaucoma 1, primary open angle, c; glc1c"
+279,D602068,"leishmaniasis, tegumentary, susceptibility to"
+280,D602080,"paget disease of bone 2, early-onset; pdb2"
+281,D602522,"bartter syndrome, type 4a, neonatal, with sensorineural deafness; barts4a"
+282,D603165,"dermatitis, atopic"
+283,D604278,"renal tubular acidosis, proximal, with ocular abnormalities and impaired intellectual development"
+284,D604416,"pyogenic sterile arthritis, pyoderma gangrenosum, and acne"
+285,D604827,"epilepsy, idiopathic generalized, susceptibility to, 7; eig7"
+286,D605021,"myoclonic epilepsy, familial infantile; fime"
+287,D605055,"alzheimer disease, familial early-onset, with coexisting amyloid and prion pathology"
+288,D605839,moved to 150800
+289,D606703,"dyskinesia with orofacial involvement, autosomal dominant; dskod"
+290,D606798,"blepharospasm, benign essential, susceptibility to"
+291,D606842,cardioneuromyopathy with hyaline masses and nemaline rods
+292,D607225,"spastic paralysis, infantile-onset ascending; iahsp"
+293,D607459,"sensory ataxic neuropathy, dysarthria, and ophthalmoparesis; sando"
+294,D607498,"migraine with or without aura, susceptibility to, 3"
+295,D607499,"bulimia nervosa, susceptibility to; buln"
+296,D607501,"migraine without aura, susceptibility to, 4"
+297,D607508,"migraine with or without aura, susceptibility to, 5"
+298,D607516,"migraine with or without aura, susceptibility to, 6"
+299,D607554,"atrial fibrillation, familial, 3; atfb3"
+300,D607628,"epilepsy, idiopathic generalized, susceptibility to, 11; eig11"
+301,D607631,"epilepsy, juvenile absence, susceptibility to, 1; eja1"
+302,D607681,"febrile seizures, familial, 8; feb8"
+303,D607682,"epilepsy, idiopathic generalized, susceptibility to, 9; eig9"
+304,D607685,"hypereosinophilic syndrome, idiopathic; hes"
+305,D607850,osteoarthritis susceptibility 3; os3
+306,D608033,"encephalopathy, acute, infection-induced, susceptibility to, 3; iiae3"
+307,D608088,"neuropathy, hereditary sensory and autonomic, type i, with cough and gastroesophageal reflux"
+308,D608105,"epilepsy, rolandic, with paroxysmal exercise-induced dystonia and writer's cramp; eprpdc"
+309,D608217,"seizures, benign familial neonatal, 3; bfns3"
+310,D608320,"coronary artery disease, autosomal dominant, 1; adcad1"
+311,D608583,"atrial fibrillation, familial, 1; atfb1"
+312,D608622,"hypertension, diastolic, resistance to"
