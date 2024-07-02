@@ -1,10 +1,24 @@
 # LLM-DDA
+![Views](https://komarev.com/ghpvc/?username=Somewhat120&label=LLM_DDA%20views&color=0e75b6&style=flat)
+
 > Code for "Empowering graph neural network-based computational drug repositioning with large language model-inferred knowledge representation"
 
 ![Workflow](workflow.jpg)
 
 ## Datasets
-We introduce 4 drug-disease association benchmark datasets in our study, including: [**B-dataset**](https://link.springer.com/article/10.1186/s12859-018-2220-4), [**C-dataset**](https://academic.oup.com/bioinformatics/article/32/17/2664/2450730), [**F-dataset**](https://www.embopress.org/doi/full/10.1038/msb.2011.26), and [**R-dataset**](https://www.sciencedirect.com/science/article/pii/S0010482522008356). Dataset summary is as follows:
+We introduce 4 drug-disease association benchmark datasets in our study, including: [**B-dataset**](https://link.springer.com/article/10.1186/s12859-018-2220-4
+        
+        
+        
+        
+        
+        ), [**C-dataset**](https://academic.oup.com/bioinformatics/article/32/17/2664/2450730), [**F-dataset**](https://www.embopress.org/doi/full/10.1038/msb.2011.26
+        
+        
+        
+        
+        
+        ), and [**R-dataset**](https://www.sciencedirect.com/science/article/pii/S0010482522008356). Dataset summary is as follows:
 
 | Dataset   | Drugs | Diseases | Drug-disease Associations | Pos-Neg Ratio |
 |-----------|-------|----------|--------------------------|---------------|
