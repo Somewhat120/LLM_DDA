@@ -6,7 +6,11 @@
 ![Workflow](workflow.jpg)
 
 ## Datasets
-We introduce 4 drug-disease association benchmark datasets in our study, including: [**B-dataset**](https://link.springer.com/article/10.1186/s12859-018-2220-4), [**C-dataset**](https://academic.oup.com/bioinformatics/article/32/17/2664/2450730), [**F-dataset**](https://www.embopress.org/doi/full/10.1038/msb.2011.26), and [**R-dataset**](https://www.sciencedirect.com/science/article/pii/S0010482522008356). Dataset summary is as follows:
+We introduce 4 drug-disease association benchmark datasets in our study, including: [**B-dataset**](https://link.springer.com/article/10.1186/s12859-018-2220-4
+        
+        ), [**C-dataset**](https://academic.oup.com/bioinformatics/article/32/17/2664/2450730), [**F-dataset**](https://www.embopress.org/doi/full/10.1038/msb.2011.26
+        
+        ), and [**R-dataset**](https://www.sciencedirect.com/science/article/pii/S0010482522008356). Dataset summary is as follows:
 
 | Dataset   | Drugs | Diseases | Drug-disease Associations | Pos-Neg Ratio |
 |-----------|-------|----------|--------------------------|---------------|
@@ -19,7 +23,7 @@ We introduce 4 drug-disease association benchmark datasets in our study, includi
 Please find the designed zero-shot template for GPT-4 to generate drug and disease knowledge descriptions in ```gpt.ipynb```.
 
 ## LLM-inferred knowledge representations
-To generate LLM-inferred knowledge representations, please refer ```generate_emb.py```. Also, we have stored generated embedding files for B-dataset, C-dataset, F-dataset, and R-dataset, please fine them in "**feat**" folder. Specifically, ```LLM_drug_emb.pkl``` and ```LLM_disease_emb.pkl``` are generated embeddings from GPT-4; ```BERT_drug_emb.pkl``` and ```BERT_disease_emb.pkl``` are generated embeddings from BioBERT.
+To generate LLM-inferred knowledge representations, please refer ```generate_emb.py```. Also, we have stored generated embedding files for B-dataset, C-dataset, F-dataset, and R-dataset, please find them in "**feat**" folder. Specifically, ```LLM_drug_emb.pkl``` and ```LLM_disease_emb.pkl``` are generated embeddings from GPT-4; ```BERT_drug_emb.pkl``` and ```BERT_disease_emb.pkl``` are generated embeddings from BioBERT.
 
 ## Code
 
