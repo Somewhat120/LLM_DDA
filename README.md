@@ -1,5 +1,5 @@
 # LLM-DDA
-![Views](https://komarev.com/ghpvc/?username=Somewhat120&label=LLM_DDA%20views&color=0e75b6&style=flat)
+![Views](https://komarev.com/ghpvc/?username=Somewhat120&label=LLM-DDA%20views&color=0e75b6&style=flat)
 
 > Code for "Empowering graph neural network-based computational drug repositioning with large language model-inferred knowledge representation"
 
@@ -12,7 +12,11 @@ We introduce 4 drug-disease association benchmark datasets in our study, includi
         
         
         
+        
+        
         ), [**C-dataset**](https://academic.oup.com/bioinformatics/article/32/17/2664/2450730), [**F-dataset**](https://www.embopress.org/doi/full/10.1038/msb.2011.26
+        
+        
         
         
         
