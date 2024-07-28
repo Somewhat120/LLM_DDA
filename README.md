@@ -16,12 +16,12 @@ We introduce 4 drug-disease association benchmark datasets in our study, includi
 | R-dataset | 894   | 454      | 2,704                    | 0.67%         |
 
 ## LLM templates
-Please find the designed zero-shot template for GPT-4 to generate drug and disease knowledge descriptions in ```gpt.ipynb```.
+Please find the designed zero-shot template for GPT-4 to generate drug and disease knowledge descriptions in ```desc_generate.py```. Please find the generated drug (**drug_desc.csv**) and disease descriptions (**disease_desc.csv**) for B-dataset, C-dataset, F-dataset, and R-dataset, in each "**feat/DATASET**" folder.
 
 ## LLM-inferred knowledge representations
-To generate LLM-inferred knowledge representations, please refer ```generate_emb.py```. Also, we have stored generated embedding files for B-dataset, C-dataset, F-dataset, and R-dataset, please find them in "**feat**" folder. Specifically, ```LLM_drug_emb.pkl``` and ```LLM_disease_emb.pkl``` are generated embeddings from GPT-4; ```BERT_drug_emb.pkl``` and ```BERT_disease_emb.pkl``` are generated embeddings from BioBERT.
+To generate LLM-inferred knowledge representations, please refer ```emb_generate.py```. Also, we have stored generated embedding files for B-dataset, C-dataset, F-dataset, and R-dataset, please find them in "**feat**" folder. Specifically, ```LLM_drug_emb.pkl``` and ```LLM_disease_emb.pkl``` are generated embeddings from GPT-4; ```BERT_drug_emb.pkl``` and ```BERT_disease_emb.pkl``` are generated embeddings from BioBERT.
 
-## Code
+## To reproduce our method
 
 ### Environment Requirement
 - `torch`: 1.13.0+cu117
@@ -37,6 +37,8 @@ Suggested setting:
 ```
 python main.py -sp {SAVE_PATH} -da {DATASET} -fo 5 -se 0 -ft LLM -ct graph_ae -id 0 -ep 5000 -dp 0.4 -hf 128
 ```
+
+We have also stored standard prediction results of LLM-DDA_{GNN-AE} and DirectPred baseline in "**result**" folder.
 
 ## Citation
 TBD

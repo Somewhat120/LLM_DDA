@@ -165,6 +165,5 @@ def train():
     plot_result_auc(args, data[:, -1].flatten(), pred_result.flatten(), AUC)
     plot_result_aupr(args, data[:, -1].flatten(), pred_result.flatten(), aupr)
 
-
 if __name__ == '__main__':
     train()
