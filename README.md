@@ -38,7 +38,7 @@ Suggested setting:
 python main.py -sp {SAVE_PATH} -da {DATASET} -fo 5 -se 0 -ft LLM -ct graph_ae -id 0 -ep 5000 -dp 0.4 -hf 128
 ```
 
-We have also stored standard prediction results of LLM-DDA_{GNN-AE} and DirectPred baseline in "**result**" folder.
+We have also stored standard prediction results of LLM-DDA<sub>GNN-AE</sub> and DirectPred baseline in "**result**" folder.
 
 ## Citation
 TBD
