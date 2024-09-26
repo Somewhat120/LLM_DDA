@@ -6,7 +6,19 @@
 ![Workflow](workflow.jpg)
 
 ## Datasets
-We introduce 4 drug-disease association benchmark datasets in our study, including: [**B-dataset**](https://link.springer.com/article/10.1186/s12859-018-2220-4), [**C-dataset**](https://academic.oup.com/bioinformatics/article/32/17/2664/2450730), [**F-dataset**](https://www.embopress.org/doi/full/10.1038/msb.2011.26), and [**R-dataset**](https://www.sciencedirect.com/science/article/pii/S0010482522008356). Dataset summary is as follows:
+We introduce 4 drug-disease association benchmark datasets in our study, including: [**B-dataset**](https://link.springer.com/article/10.1186/s12859-018-2220-4
+        
+        
+        
+        
+        
+        ), [**C-dataset**](https://academic.oup.com/bioinformatics/article/32/17/2664/2450730), [**F-dataset**](https://www.embopress.org/doi/full/10.1038/msb.2011.26
+        
+        
+        
+        
+        
+        ), and [**R-dataset**](https://www.sciencedirect.com/science/article/pii/S0010482522008356). Dataset summary is as follows:
 
 | Dataset   | Drugs | Diseases | Drug-disease Associations | Pos-Neg Ratio |
 |-----------|-------|----------|--------------------------|---------------|
@@ -41,4 +53,15 @@ python main.py -sp {SAVE_PATH} -da {DATASET} -fo 5 -se 0 -ft LLM -ct graph_ae -i
 We have also stored standard prediction results of LLM-DDA<sub>GNN-AE</sub> and DirectPred baseline in "**result**" folder.
 
 ## Citation
-TBD
+```
+@article{RN93,
+   author = {Gu, Yaowen and Xu, Zidu and Yang, Carl},
+   title = {Empowering Graph Neural Network-Based Computational Drug Repositioning with Large Language Model-Inferred Knowledge Representation},
+   journal = {Interdisciplinary Sciences: Computational Life Sciences},
+   ISSN = {1867-1462},
+   DOI = {10.1007/s12539-024-00654-7},
+   url = {https://doi.org/10.1007/s12539-024-00654-7},
+   year = {2024},
+   type = {Journal Article}
+}
+```
